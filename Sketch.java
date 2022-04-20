@@ -1,36 +1,83 @@
 import processing.core.PApplet;
+import processing.core.PImage;
+
 
 public class Sketch extends PApplet {
 	
-	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
-   */
+  // initialize variables
+	PImage backgroundImg;
+  PImage DVD;
+
+  double dblCircleX = 50;
+  double dblCircleY = 50;
+  double dblCircleXSpeed = 10;
+  double dblCircleYSpeed;
+  double dblCircleMove = 1;
+
+  double dblDvdX = 50;
+  double dblDvdY = 50;
+  double dblDvdXSpeed = 7;
+  double dblDvdYSpeed;
+  double dblDvdMove = 2;
+  double dblWave;
+
+  // declare size
   public void settings() {
-	// put your size call here
-    size(400, 400);
+    size(612, 408);
   }
 
-  /** 
-   * Called once at the beginning of execution.  Add initial set up
-   * values here i.e background, stroke, fill etc.
-   */
+  // load background image
   public void setup() {
-    background(210, 255, 173);
+    backgroundImg = loadImage("white background.jpg");
+    image(backgroundImg, 0, 0);
+    
   }
 
-  /**
-   * Called repeatedly, anything drawn to the screen goes here
-   */
   public void draw() {
-	  
-	// sample code, delete this stuff
-    stroke(128);
-    line(150, 25, 270, 350);  
+    // set background image every seocnd so animated elements do not leave trails
+    image(backgroundImg, 0, 0);
+    
+    // calculate Y speed of circle using sinusoidal function with periods of Pi/20 
+    dblCircleYSpeed = Math.sin(dblWave) * 10;
+    dblWave += Math.PI/20;
 
-    stroke(255);
-    line(50, 125, 70, 50);  
+    // check if circle moves beyond the edges of the window, and reverses the motion if so
+    if (dblCircleX - 10 < 0 || dblCircleX + 10 > width) {
+      dblCircleXSpeed *= -1;
+    } 
+
+    if ((dblCircleY - 10 < 0 && dblCircleYSpeed < 0) || (dblCircleY + 10 > height && dblCircleYSpeed > 0)) {
+      dblCircleYSpeed *= -1;
+      dblCircleMove *= -1;
+    }
+
+    // set colour and stroke of circle
+    noStroke();
+    fill(0);
+
+    // draw + animate circle according to speeds
+    ellipse((float)dblCircleX, (float)dblCircleY, 20, 20);
+    dblCircleX += dblCircleXSpeed;
+    dblCircleY += dblCircleMove + dblCircleYSpeed;
+
+    // calculate DVD Y speed with sinusoidal function, load DVD image
+    dblDvdYSpeed = Math.sin(dblWave) * 2;
+    DVD = loadImage("DVD_logo.png");
+    DVD.resize(width / 5, height / 5);
+
+    // check if DVD moves beyond the edges of the window, and reverses the motion if so
+    if (dblDvdX > width - width / 5 || dblDvdX < 0) {
+      dblDvdXSpeed *= -1;
+    }
+
+    if ((dblDvdY + height / 5 > height && dblDvdYSpeed > 0) || (dblDvdY < 0 && dblDvdYSpeed < 0)) {
+      dblDvdYSpeed *= -1;
+      dblDvdMove *= -1;
+    }
+
+    // draw + animate DVD according to speeds
+    image(DVD, (float)dblDvdX, (float)dblDvdY);
+    dblDvdX += dblDvdXSpeed;
+    dblDvdY += dblDvdYSpeed + dblDvdMove;
   }
-  
-  // define other methods down here.
 }
