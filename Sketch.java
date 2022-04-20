@@ -6,7 +6,7 @@ public class Sketch extends PApplet {
   // initialize variables
 	PImage backgroundImg;
   PImage DVD;
-
+  
   double dblCircleX = 50;
   double dblCircleY = 50;
   double dblCircleXSpeed = 10;
@@ -24,7 +24,7 @@ public class Sketch extends PApplet {
   public void settings() {
     size(612, 408);
   }
-  
+
   // load background image
   public void setup() {
     backgroundImg = loadImage("white background.jpg");
