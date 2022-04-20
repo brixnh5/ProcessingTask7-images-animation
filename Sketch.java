@@ -24,7 +24,7 @@ public class Sketch extends PApplet {
   public void settings() {
     size(612, 408);
   }
-
+  
   // load background image
   public void setup() {
     backgroundImg = loadImage("white background.jpg");
